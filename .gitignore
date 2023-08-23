@@ -22,5 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-  // api key = 234fb128
-const API_URL = "http://www.omdbapi.com?apikey=234fb128";
+
+
+//api key file
+.env

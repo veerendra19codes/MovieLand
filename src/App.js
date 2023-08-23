@@ -4,34 +4,36 @@ import MovieCard from "./MovieCard.jsx";
 import "./App.css";
 import SearchIcon from "./search.svg";
 
-  // api key = 234fb128
-const API_URL = "http://www.omdbapi.com?apikey=234fb128";
+//getting api key from .env file
+const API_KEY =  process.env.REACT_APP_API_KEY;
+
+//inserting api key into api url
+const API_URL =  "http://www.omdbapi.com/?i=tt3896198&apikey="+API_KEY;
 
 const App = () => {
+
+    
 
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
     const searchMovies = async (title) => {
-        const response = await fetch(`${API_URL}&s=${title}`);
-        const data = await response.json();
-
-        setMovies(data.Search);
+        try{
+            const response = await fetch(`${API_URL}&s=${title}`);
+            // const response = await axios.get(`${API_URL}&s=${title}`);
+            const data = await response.json();
+    
+            setMovies(data.Search);
+        }
+        catch(err){
+            console.log(err);
+        }
     }
 
     useEffect(() => {
         searchMovies("Spiderman");
     }, []);
 
-    const movie1 = {
-        
-    "Title": "Superman, Spiderman or Batman",
-    "Year": "2011",
-    "imdbID": "tt2084949",
-    "Type": "movie",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ4MzcxNDU3N15BMl5BanBnXkFtZTgwOTE1MzMxNzE@._V1_SX300.jpg"
-
-    }
     return (
         <div className="app">
             <h1>MovieLand</h1>
@@ -41,6 +43,7 @@ const App = () => {
                     placeholder="Search for movies"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyPress={() => searchMovies(searchTerm)}
                 />
                 <img 
                     src={SearchIcon}
@@ -61,6 +64,7 @@ const App = () => {
                     <div className="empty">
                         <h2>No Movies found</h2>
                     </div>
+                    
                 )
             }
 
